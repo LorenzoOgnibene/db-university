@@ -64,7 +64,37 @@
 
     ORDER BY CONVERT(`students`.`surname` USING utf8) COLLATE utf8_general_ci;
 
-5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
-6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
-7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per
-superare ciascuno dei suoi esami
+-- 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
+
+    SELECT `teachers`.`name`, `teachers`.`surname`, `degrees`.`name`, `degrees`.`level`, `courses`.`year` , `courses`.`period`, `courses`.`cfu`
+    FROM `teachers`
+
+    JOIN `course_teacher`
+    ON `course_teacher`.`teacher_id` = `teachers`.`id`
+
+    JOIN `courses`
+    ON `courses`.`id` = `course_teacher`.`course_id`
+
+    JOIN `degrees`
+    ON `degrees`.`id`= `courses`.`degree_id`;
+
+-- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
+
+    SELECT `teachers`.`name`, `teachers`.`surname`
+    FROM `departments`
+
+    JOIN `degrees`
+    ON `degrees`.`department_id` = `departments`.`id`
+
+    JOIN `courses`
+    ON `courses`.`degree_id` = `degrees`.`id`
+
+    JOIN `course_teacher`
+    ON `course_teacher`.`course_id` = `courses`.`id`
+
+    JOIN `teachers`
+    ON `teachers`.id = `course_teacher`.`teacher_id`
+
+    WHERE `departments`.`name` = 'Dipartimento di Matematica';
+
+-- 7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per superare ciascuno dei suoi esami
