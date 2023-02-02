@@ -80,7 +80,7 @@
 
 -- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 
-    SELECT `teachers`.`name`, `teachers`.`surname`
+    SELECT DISTINCT `teachers`.`name`, `teachers`.`surname`
     FROM `departments`
 
     JOIN `degrees`
